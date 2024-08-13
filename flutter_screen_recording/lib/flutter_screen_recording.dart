@@ -7,14 +7,8 @@ import 'dart:io';
 
 class FlutterScreenRecording {
   static Future<bool> startRecordScreen(String name, {String? titleNotification, String? messageNotification}) async {
-    if (titleNotification == null) {
-      titleNotification = "";
-    }
-    if (messageNotification == null) {
-      messageNotification = "";
-    }
-
-    await _maybeStartFGS(titleNotification, messageNotification);
+    await _maybeStartFGS(
+        titleNotification ?? 'Recording screen', messageNotification ?? 'The application is recording the screen.');
     final bool start = await FlutterScreenRecordingPlatform.instance.startRecordScreen(name);
 
     return start;
@@ -43,15 +37,6 @@ class FlutterScreenRecording {
           channelDescription: messageNotification,
           channelImportance: NotificationChannelImportance.LOW,
           priority: NotificationPriority.LOW,
-          iconData: const NotificationIconData(
-            resType: ResourceType.mipmap,
-            resPrefix: ResourcePrefix.ic,
-            name: 'launcher',
-          ),
-          buttons: [
-            // const NotificationButton(id: 'sendButton', text: 'Send'),
-            // const NotificationButton(id: 'testButton', text: 'Test'),
-          ],
         ),
         iosNotificationOptions: const IOSNotificationOptions(
           showNotification: true,
@@ -62,8 +47,6 @@ class FlutterScreenRecording {
           autoRunOnBoot: true,
           allowWifiLock: true,
         ),
-        //iosNotificationOptions:true,
-        //intDevLog: true,
       );
     }
   }
